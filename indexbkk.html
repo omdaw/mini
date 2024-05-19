@@ -1,0 +1,161 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BKK.Green Space</title>
+    <!-- link css leaflet (เชื่อม css leaflet) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <!-- linlk js leaflet(เชื่อม js leaflet) -->
+    <!-- Make sure you put this AFTER Leaflet's CSS (ตรวจสอบให้แน่ใจว่าคุณใส่สิ่งนี้หลังจาก Leaflet's CSS) -->
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+ integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+ crossorigin=""></script>
+
+<style>
+    body {
+    padding: 0;
+    margin: 0;
+    }
+    
+    html,
+    body,
+    #map {
+    height: 100%;
+    width: 100%;
+    }
+    </style>
+    
+</head>
+<body>
+    <!-- สร้างขนาดหน้าจอ -->
+    <div id="map" style="width: 100%; height: 100%"></div>
+    <script>
+        // ในพิกัดที่เราจะทำการศึกษา
+        var map = L.map('map').setView([13.770413145765712, 100.55042210461237], 10);
+        //import based map (สร้าง based map)
+        var OSM = L.tileLayer('https://tile.openstreetmap.de/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
+}).addTo(map);
+
+    var Stadia_AlidadeSatellite = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 20,
+	attribution: '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) | &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'jpg'
+});
+
+    var CyclOSM = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+    maxZoom: 20,
+ attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+// รวม based map ทำเครื่องมือแยก based map
+    var baseLayers = {
+        "OSM" : OSM,
+        "Stadia_AlidadeSatellite" : Stadia_AlidadeSatellite,
+        "CyclOSM" : CyclOSM
+    }
+    L.control.layers(baseLayers).addTo(map);
+    //การเพิ่มข้อข้อมูลลงบนแผนที่
+    var point = L.marker([13.770413145765712, 100.55042210461237],
+{
+draggable: true, // Make the icon dragable
+title: 'พื้นที่สีเขียวในกรุงเทพมหานครฯ', // Add a title
+opacity: 1.5 // Adjust the opacity
+} 
+).addTo(map);
+// การเพิ่มวงกลม(รัศมีขอบเขต)
+var point = L.circleMarker(
+[13.770413145765712, 100.55042210461237],
+{title :'BKK.Green Space',
+radius: 50, 
+color: "red", 
+fillColor: "blue"}
+).addTo(map);
+
+//เพิ่มข้อมูลลงในแผนที่ รายเอียดต่างๆ
+point.bindPopup("พื้นที่สีเขียวในกรุงเทพมหานครฯ</b><br>ปัจจุบัน กรุงเทพฯ มีพื้นที่สีเขียว 6.99 ตารางเมตรต่อประชากร 1 คน ซึ่งตามเกณฑ์มาตรฐานขององค์การอนามัยโลกนั้น กำหนดให้แต่ละเมืองควรมีพื้นที่สีเขียวในอัตรา 9 ตารางเมตรต่อคน แม้ว่ากรุงเทพฯ จะยังไม่ถึงเกณฑ์มาตรฐาน แต่เราก็พัฒนามาอย่างต่อเนื่อง พร้อมตั้งเป้าหมายว่าภายในปี 2573 กทม.จะเพิ่มพื้นที่สีเขียวให้ได้ถึง 10 ตารางเมตรต่อคน จากความร่วมมือของทุกภาคส่วนและภาคีเครือข่ายภายใต้โครงการ GREEN BANGKOK 2030 ")//เปลี่ยน
+.openPopup(); 
+
+// เพิ่มพิกัดจุดพื้นที่ในการศึกษา
+var BANGKOK = [ 
+["สวนสาธารณะศูนย์กีฬาบึงหนองบอน", 13.69195674597199, 100.6605476555963],
+[" สวนหลวง ร.๙", 13.688591084393996, 100.66414286783531],
+["สวนเบญจกิติ",13.731047165222657, 100.5580679326819],
+["สวนวชิรเบญจทัศ", 13.813231664884125, 100.55670432116405],
+["สวนลุมพินี",13.731584419552785, 100.54174130951962],
+["สวนเสรีไทย",13.787043806339065, 100.67442399417791],
+[" สวนสมเด็จพระนางเจ้าสิริกิติ์ฯ", 13.807563980619271, 100.5504504058211],
+["สวนจตุจักร ",13.807705563987575, 100.55524031281294],
+[" สวนวารีภิรมย์",13.848603310063169, 100.77558925946076],
+[" สวนเฉลิมพระเกียรติพระบาทสมเด็จพระเจ้าอยู่หัว เนื่องในโอกาสพระราชพิธีมหามงคลเฉลิม พระชนมพรรษา7 รอบ",13.79521041992544, 100.47090506371416],
+[" สวนบึงกระเทียม",13.812551369696841, 100.71381834524131],
+// [" สวนบึงกระเทียมมีนบุรี",13.80701013537493, 100.707985657529],
+[" สวนนวมินทร์ภิรมย์ (บึงลำพังพวย)",13.784198604213108, 100.64800890952071],
+[" สวนบางแคภิรมย์",13.686330431900542, 100.38476208253304],
+[" สวนธนบุรีรมย์",13.65211544387435, 100.49135204999659],
+[" สวนกีฬารามอินทรา",13.878121572159436, 100.62049522372844],
+[" สวนทวีวนารมย์",13.744284318920544, 100.35244145436012],
+[" สวน 60 พรรษา สมเด็จพระนางเจ้าฯ พระบรมราชินีนาถ",13.762961569252127, 100.73208873163075],
+["  สวนพระนคร (สวนลาดกระบัง)",13.72133089282333, 100.78098723161436],
+["  สวนวนธรรม (สวนธรรม 70 พรรษา มหาราชินี)",13.683504555667955, 100.65641227750757],
+[" สวนเทียนทะเลพัฒนาพฤกษาภิรมย์",13.620038179623227, 100.43837548499613],
+["  สวนหนองจอก",13.85535475291456, 100.85884156235078],
+[" สวนวัชราภิรมย์",13.8523474553229, 100.63966099303407],
+[" สวนสิริภิรมย์",13.82901535634949, 100.7471065157616],
+[" สวนวนาภิรมย์ร่มเกล้า",13.755871322623424, 100.74539590094352],
+["  สวนสาธารณะเฉลิมพระเกียรติ 6 รอบ พระชนมพรรษา",13.6858003533376, 100.51843984638982],
+[" สวนรมณีนาถ",13.748994393538199, 100.50276208162502],
+[" อุทยานเบญจสิริ",13.731530641647803, 100.56783836627633],
+[" สวนหลวงพระราม 8",13.769424232074563, 100.49459197026484],
+[" สวนสราญรมย์",13.748298002082064, 100.49525043957225],
+[" สวนเฉลิมพระเกียรติ 80 พรรษา พระบาทสมเด็จพระเจ้าอยู่หัว (บางกอกน้อย)",13.772244819887204, 100.46807257766052],
+[" สวนสาธารณะบึงน้ำลาดพร้าว 71",13.820348545217524, 100.6120616623371],
+[" สวนสันติภาพ",13.762849786079537, 100.5411787316307],
+[" สวน 50 พรรษา มหาจักรีสิรินธร",13.676914076689409, 100.67765974693923],
+[" 	 สวนเฉลิมพระเกียรติ 80 พรรษา พระบาทสมเด็จพระเจ้าอยู่หัว (สาทร)",13.718724050935048, 100.54264992366602],
+["สวนรมณีย์ทุ่งสีกัน",13.92960200362768, 100.56795409306459],
+["  สวนพระยาภิรมย์",13.824430392354996, 100.75777771123308],
+[" สวนสันติชัยปราการ",13.764244900861272, 100.49540991573632],
+["  สวนราษฎร์ภิรมย์",13.808075061117746, 100.88217729301671],
+[" สวนสิรินธราพฤกษาพรรณ",13.746940133017944, 100.46668843901895],
+[" สวน 15 นาที ซอยกลับเพิ่มพูล",13.701442376481548, 100.49749588124058],
+
+
+// สร้างiconเเสดงพิกัดจุดที่ใช้ศึกษา
+];
+var greenIcon = L.icon({
+iconUrl: 'https://www.toyota.co.th/envi/assets/img/general/activity-detail-2-4.png', //รูปiconที่มาจากการคัดลอกที่อยู่รูปภาพ
+
+// ปรับขนาดของicon
+iconSize: [50, 50], // size of the icon
+shadowSize: [50, 64], // size of the shadow
+iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+shadowAnchor: [4, 62], // the same for the shadow
+popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+for (var i = 0; i < BANGKOK.length; i++) {
+
+marker = new L.marker([BANGKOK[i][1], BANGKOK[i][2]], {icon: greenIcon})
+.bindPopup(BANGKOK[i][0])
+.addTo(map);
+}
+//description/Legend
+var legend = L.control({position: "bottomright"});
+legend.onAdd = function(map) {
+var div = L.DomUtil.create("div", "legend");
+div.innerHTML = 
+'<p><b> พื้นที่สีเขียว ธรรมชาติกลางกรุง</b></p><hr>' + 
+'Created by อ้อมดาว นฤเบศร สาริตา <br>' + 
+'ID: 022 293 315<br>'+ 
+'<img src="https://unity.swu.ac.th/wp-content/uploads/2020/07/SWU_Logo_EN_Color.png" width = 20%>';
+return div;
+};
+legend.addTo(map);
+
+    </script>    
+</body>
+</html>
